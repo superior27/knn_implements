@@ -89,55 +89,73 @@ def chooseNeighbor(new_list_iris,number):
     most_neighbor = sorted(my_dict.items(),key=orderNeighbor,reverse=True)
     return int(most_neighbor[0][0])
 
-def simple3nnComparation(my_iris): 
-    menor = None
+def simpleKnnComparation(my_iris):    
     new_list_iris = orderList(list_iris)
     new_list_iris = sorted(new_list_iris,key=orderElement)
     for element_iris in new_list_iris:
         print element_iris
-    my_iris = np.append(my_iris,chooseNeighbor(new_list_iris,3))   
+    number = int(raw_input("Informe o número de 'K' 'Vizinhos':"))
+    my_iris = np.append(my_iris,chooseNeighbor(new_list_iris,number))   
     print my_iris        
     return my_iris
 
 def plotGraphBeforeClassification(my_iris):
     matplotlib.rcParams['axes.unicode_minus'] = False
     fig, ax = plt.subplots()
+    red_axis_x = []
+    red_axis_y = []
+    blue_axis_x = []
+    blue_axis_y = []
+    green_axis_x = []
+    green_axis_y = []
     for element_iris in list_iris:
         if element_iris[4] == 0:
-            ax.plot(element_iris[0], element_iris[1], 'o', color='red')
+            red_axis_x.append(element_iris[0])
+            red_axis_y.append(element_iris[1])            
         elif element_iris[4] == 1:
-            ax.plot(element_iris[0], element_iris[1], 'x', color='blue')
+            blue_axis_x.append(element_iris[0])
+            blue_axis_y.append(element_iris[1])            
         else:
-            ax.plot(element_iris[0], element_iris[1], '>', color='green')
-    
-    ax.plot(my_iris[0], my_iris[1], '^', color='pink',label="Elemento Teste")    
+            green_axis_x.append(element_iris[0])
+            green_axis_y.append(element_iris[1])            
     ax.set_title('From Patterns Using KNN classification')
-    ax.plot(4.5,2,'o',color="red",label="Classe 1")
-    ax.plot(4.5,2,'x',color="blue",label="Classe 2")
-    ax.plot(4.5,2,'>',color="green",label="Classe 3")
+    ax.plot(red_axis_x,red_axis_y,'o',color="red",label="Classe 1")
+    ax.plot(blue_axis_x,blue_axis_y,'x',color="blue",label="Classe 2")
+    ax.plot(green_axis_x,green_axis_y,'>',color="green",label="Classe 3")    
+    ax.plot(my_iris[0], my_iris[1], '^', color='pink',label="Elemento Teste - Classe ?")    
+    ax.set_title('From Patterns Using KNN classification')
     ax.legend()
     plt.show()
 
 def plotGraphAfterClassification(my_iris):
     matplotlib.rcParams['axes.unicode_minus'] = False
     fig, ax = plt.subplots()
+    red_axis_x = []
+    red_axis_y = []
+    blue_axis_x = []
+    blue_axis_y = []
+    green_axis_x = []
+    green_axis_y = []
     for element_iris in list_iris:
-        if element_iris[4] == 1:
-            ax.plot(element_iris[0], element_iris[1], 'o', color='red')
-        elif element_iris[4] == 2:
-            ax.plot(element_iris[0], element_iris[1], 'x', color='blue')
+        if element_iris[4] == 0:
+            red_axis_x.append(element_iris[0])
+            red_axis_y.append(element_iris[1])            
+        elif element_iris[4] == 1:
+            blue_axis_x.append(element_iris[0])
+            blue_axis_y.append(element_iris[1])            
         else:
-            ax.plot(element_iris[0], element_iris[1], '>', color='green')
-    my_color = ['red','blue','green']    
-    ax.plot(my_iris[0], my_iris[1], '^', color=my_color[int(my_iris[4])],label="Elemento Teste")    
+            green_axis_x.append(element_iris[0])
+            green_axis_y.append(element_iris[1])            
     ax.set_title('From Patterns Using KNN classification')
-    ax.plot(4.5,2,'o',color="red",label="Classe 1")
-    ax.plot(4.5,2,'x',color="blue",label="Classe 2")
-    ax.plot(4.5,2,'>',color="green",label="Classe 3")
+    ax.plot(red_axis_x,red_axis_y,'o',color="red",label="Classe 1")
+    ax.plot(blue_axis_x,blue_axis_y,'x',color="blue",label="Classe 2")
+    ax.plot(green_axis_x,green_axis_y,'>',color="green",label="Classe 3")
+    my_color = ['red','blue','green']
+    ax.plot(my_iris[0], my_iris[1], '^', color=my_color[int(my_iris[4])],label="Elemento Teste - Classe "+str(my_iris[4]+1))
     ax.legend()
     plt.show()
 
 my_iris = createMyIris()
-my_iris = simple3nnComparation(my_iris)
+my_iris = simpleKnnComparation(my_iris)
 plotGraphBeforeClassification(my_iris)
 plotGraphAfterClassification(my_iris)
